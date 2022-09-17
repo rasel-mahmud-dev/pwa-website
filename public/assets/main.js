@@ -985,7 +985,7 @@ var Navigation = () => {
       isOpen: !state.isOpen
     });
   }
-  return /* @__PURE__ */ _n.createElement("div", {
+  return /* @__PURE__ */ _n.createElement("div", null, /* @__PURE__ */ _n.createElement("div", {
     className: "header"
   }, /* @__PURE__ */ _n.createElement("div", {
     className: "container"
@@ -1184,9 +1184,61 @@ var Navigation = () => {
     viewBox: "0 0 448 512"
   }, /* @__PURE__ */ _n.createElement("path", {
     d: "M16 132h416c8.837 0 16-7.163 16-16V76c0-8.837-7.163-16-16-16H16C7.163 60 0 67.163 0 76v40c0 8.837 7.163 16 16 16zm0 160h416c8.837 0 16-7.163 16-16v-40c0-8.837-7.163-16-16-16H16c-8.837 0-16 7.163-16 16v40c0 8.837 7.163 16 16 16zm0 160h416c8.837 0 16-7.163 16-16v-40c0-8.837-7.163-16-16-16H16c-8.837 0-16 7.163-16 16v40c0 8.837 7.163 16 16 16z"
-  }))))))));
+  }))), /* @__PURE__ */ _n.createElement("li", {
+    className: "icon-item shown-icon-nav"
+  }, /* @__PURE__ */ _n.createElement(c4, {
+    href: "/login"
+  }, /* @__PURE__ */ _n.createElement("svg", {
+    className: "",
+    xmlns: "http://www.w3.org/2000/svg",
+    viewBox: "0 0 448 512"
+  }, /* @__PURE__ */ _n.createElement("path", {
+    d: "M16 132h416c8.837 0 16-7.163 16-16V76c0-8.837-7.163-16-16-16H16C7.163 60 0 67.163 0 76v40c0 8.837 7.163 16 16 16zm0 160h416c8.837 0 16-7.163 16-16v-40c0-8.837-7.163-16-16-16H16c-8.837 0-16 7.163-16 16v40c0 8.837 7.163 16 16 16zm0 160h416c8.837 0 16-7.163 16-16v-40c0-8.837-7.163-16-16-16H16c-8.837 0-16 7.163-16 16v40c0 8.837 7.163 16 16 16z"
+  }))))))))), /* @__PURE__ */ _n.createElement("div", {
+    className: "spacer"
+  }));
 };
 var Navigation_default = Navigation;
+
+// views/pages/auth/Login.jsx
+var Login = () => {
+  const [state, setState] = y2({
+    data: { email: "", password: "" }
+  });
+  async function handleSubmit(e3) {
+    e3.preventDefault();
+    let res = await fetch("/api/login", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: {
+        data: JSON.stringify(state.data)
+      }
+    });
+    res = await res.json();
+    console.log(res);
+  }
+  return /* @__PURE__ */ _n.createElement("div", {
+    className: "login-form"
+  }, /* @__PURE__ */ _n.createElement("form", {
+    onSubmit: handleSubmit
+  }, /* @__PURE__ */ _n.createElement("input", {
+    type: "text",
+    name: "email",
+    placeholder: "Admin Email",
+    value: state.data.email
+  }), /* @__PURE__ */ _n.createElement("br", null), /* @__PURE__ */ _n.createElement("input", {
+    type: "password",
+    name: "password",
+    placeholder: "Admin Password",
+    value: state.data.password
+  }), /* @__PURE__ */ _n.createElement("br", null), /* @__PURE__ */ _n.createElement("button", {
+    className: "btn",
+    type: "submit"
+  }, "Login")));
+};
+var Login_default = Login;
 
 // views/app.jsx
 function App() {
@@ -1195,6 +1247,8 @@ function App() {
     path: "/"
   }), /* @__PURE__ */ _n.createElement(AboutPage_default, {
     path: "/about"
+  }), /* @__PURE__ */ _n.createElement(Login_default, {
+    path: "/login"
   })));
 }
 

@@ -6,7 +6,7 @@
         "build": "node ./build.config.js",
         "dev": "npm-run-all -p start build:watch",
         "build:watch": "set NODE_ENV=development&&node ./build.config.js",
-        "start": "nodemon server.js"
+        "start": "nodemon index.js"
     },
     "repository": {
         "type": "git",
