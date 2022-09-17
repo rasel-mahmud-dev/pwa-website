@@ -26,13 +26,11 @@ app.get("/:categoryName", (req, res) => {
         { name: "dom" },
         { name: "mongodb" },
     ]
-
-    console.log(categoryName);
-
     res.render('index', { message: "hello from server", categories, pageCategory: categoryName });
 })
 
 app.get("/", (req, res) => {
+
     const categories = [
         { name: "html" },
         { name: "css" },
@@ -45,9 +43,6 @@ app.get("/", (req, res) => {
 })
 
 
-// app.get("/", (req, res) => {
-//     res.render('index', { message: "hello from server" });
-// })
+const PORT = process.env.PORT | 3001
 
-
-app.listen(3001)
+app.listen(PORT, () => console.log(PORT))
