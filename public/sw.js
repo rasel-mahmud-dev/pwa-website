@@ -11,7 +11,8 @@ const assets = [
     '/img/dish.png',
     'https://fonts.googleapis.com/icon?family=Material+Icons',
     'https://fonts.gstatic.com/s/materialicons/v47/flUhRq6tzZclQEJ-Vdg-IuiaDsNcIhQ8tQ.woff2',
-    '/pages/fallback.html'
+    '/pages/fallback.html',
+    '/about'
 ];
 
 
@@ -57,21 +58,25 @@ self.addEventListener('fetch', evt => {
     // console.log(evt.request.url);
 
     // serve caching page
-    evt.respondWith(
-        caches.match(evt.request).then(cacheRes => {
-            return cacheRes || fetch(evt.request).then(fetchRes => {
-                return caches.open(dynamicCacheName).then(cache => {
-                    cache.put(evt.request.url, fetchRes.clone());
-                    // check cached items size
-                    limitCacheSize(dynamicCacheName, 15);
-                    return fetchRes;
-                })
-            });
-        }).catch(() => {
-            if (evt.request.url.indexOf('.html') > -1) {
-                return caches.match('/pages/fallback.html');
-            }
-        })
-    );
+
+    if(!navigator.onLine){
+        evt.respondWith(
+            caches.match(evt.request).then(cacheRes => {
+                return cacheRes || fetch(evt.request).then(fetchRes => {
+                    return caches.open(dynamicCacheName).then(cache => {
+                        cache.put(evt.request.url, fetchRes.clone());
+                        // check cached items size
+                        limitCacheSize(dynamicCacheName, 15);
+                        return fetchRes;
+                    })
+                });
+            }).catch(() => {
+                if (evt.request.url.indexOf('.html') > -1) {
+                    return caches.match('/pages/fallback.html');
+                }
+            })
+        );
+    }
+
     // }
 });

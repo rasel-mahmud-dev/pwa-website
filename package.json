@@ -2,12 +2,12 @@
     "name": "pwa",
     "version": "1.0.0",
     "description": "",
-    "main": "index.js",
     "scripts": {
-        "build": "nodemon index.js",
-        "dev": "nodemon index.js",
-        "test": "echo \"Error: no test specified\" && exit 1",
-        "start": "nodemon index.js"
+        "build": "node ./build.config.js",
+        "dev": "nodemon server.js",
+        "dev1": "nodemon server.js",
+        "build:watch": "set NODE_ENV=development&&node ./build.config.js",
+        "start": "nodemon server.js"
     },
     "repository": {
         "type": "git",
@@ -21,6 +21,12 @@
     "homepage": "https://github.com/rasel-mahmud-dev/pwa-website#readme",
     "dependencies": {
         "ejs": "^3.1.8",
-        "express": "^4.18.1"
+        "esbuild-sass-plugin": "^2.3.2",
+        "express": "^4.18.1",
+        "preact": "^10.11.0",
+        "preact-router": "^4.1.0"
+    },
+    "devDependencies": {
+        "esbuild": "^0.15.7"
     }
 }

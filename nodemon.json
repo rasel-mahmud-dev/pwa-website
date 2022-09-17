@@ -1,0 +1,13 @@
+{
+  "watch": [
+    "views/**",
+    "src/**",
+    "dist/public/**",
+    "src/public/**",
+    "functions/**"
+  ],
+  "ext": "ejs, js, ts, scss",
+  "ignore": [
+    "*.test.ts"
+  ]
+}
