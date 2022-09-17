@@ -4,3 +4,23 @@
 .items-center{align-items: center}
 .justify-between{justify-content: space-between}
 .relative{position: relative}
+
+
+.input{
+  width: 100%;
+  box-sizing: border-box;
+  outline: none;
+  border: 1px solid #ababab6b;
+  padding: 10px;
+  margin: 7px 0px;
+  color: #5b5b5b;
+  border-radius: 5px;
+}
+.label{
+  color: #5b5b5b;
+  font-weight: 500;
+}
+.btn-disable{
+  background: #a1a1a1;
+  pointer-events: none;
+}

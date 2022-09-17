@@ -1,0 +1,6 @@
+const ACTION_TYPES = {
+	FETCH_ALL_POSTS: "FETCH_ALL_POSTS",
+	SET_ADMIN: "SET_ADMIN"
+}
+
+export default ACTION_TYPES;

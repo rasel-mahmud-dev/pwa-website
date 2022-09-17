@@ -2,35 +2,45 @@ import React from "preact/compat";
 import { useState } from "preact/hooks";
 
 import "./styles.scss"
+import {handleLoginAction} from "../../store/actions";
+import useStore from "../../store/useStore";
 
 const Login = () => {
+  
+  const [app, dispatch]= useStore();
+  
+  
   const [state, setState] = useState({
     data: { email: "", password: "" },
   });
 
-  async function handleSubmit(e) {
-    e.preventDefault();
-   
-    let res = await fetch("/api/login",{
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json"
-      },
-      body: {
-        data: JSON.stringify(state.data)
+  function handleChange(e){
+    setState({
+      ...state,
+      data: {
+        ...state.data,
+        [e.target.name]: e.target.value
       }
     })
-    res = await res.json();
-    console.log(res);
   }
+  
+  async function handleSubmit(e) {
+    e.preventDefault();
+    
+    handleLoginAction(dispatch, state.data, ()=>{})
+    
+  }
+  
 
   return (
-    <div className="login-form" >
+    <div className="login-form card" >
       <form onSubmit={handleSubmit}>
         <input
           type="text"
           name="email"
+          className="input"
           placeholder="Admin Email"
+          onChange={handleChange}
           value={state.data.email}
         />
         <br/>
@@ -38,6 +48,8 @@ const Login = () => {
         <input
           type="password"
           name="password"
+          className="input"
+          onChange={handleChange}
           placeholder="Admin Password"
           value={state.data.password}
         />

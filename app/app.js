@@ -3,6 +3,9 @@ const path = require("path");
 
 require("dotenv").config("../.env")
 
+
+const { initialConnectionMongodb } = require("../services/mongodb");
+
 const app = express();
 
 
@@ -23,6 +26,13 @@ app.use((error, _req, res, _next) => {
 	}
 	
 	res.status(500).json({message: "Something were wrong"})
+})
+
+// initial mongodb database
+initialConnectionMongodb().then(()=>{
+	console.log("database connected")
+}).catch(ex=>{
+	console.log(ex)
 })
 
 

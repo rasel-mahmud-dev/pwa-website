@@ -2,6 +2,11 @@ const path = require("path");
 const router = require("express").Router();
 
 
+
+router.use("/api", require("../routes/user"))
+router.use("/api", require("../routes/post"))
+
+
 const categories = [
 	{name: "HOME"},
 	{name: "HTML"},
@@ -31,9 +36,7 @@ router.get("/api/categories", function (req, res){
 	res.send(categories)
 })
 
-router.post("/api/login", function (req, res){
-	res.send(categories)
-})
+
 
 
 router.get("*", (req, res) => {
