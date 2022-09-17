@@ -1,11 +1,13 @@
 import { useState } from 'preact/hooks'
 // import preactLogo from './assets/preact.svg'
-import './app.css'
+import './styles/common.scss'
+import './styles/app.scss'
+
 import Router from "preact-router";
 import AboutPage from "./pages/AboutPage.jsx";
 import HomePage from "./pages/HomePage.jsx";
-import {Link} from "preact-router/match";
 import React from "preact/compat";
+import Navigation from "./components/Navigation";
 
 export function App() {
   const [count, setCount] = useState(0)
@@ -13,8 +15,7 @@ export function App() {
   return (
     <div>
 
-        <Link href="/">Home</Link>
-        <Link href="/about">About</Link>
+        <Navigation />
 
         <Router>
             <HomePage path="/" />

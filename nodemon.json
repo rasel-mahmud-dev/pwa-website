@@ -4,7 +4,8 @@
     "src/**",
     "dist/public/**",
     "src/public/**",
-    "functions/**"
+    "functions/**",
+    "server.js"
   ],
   "ext": "ejs, js, ts, scss",
   "ignore": [

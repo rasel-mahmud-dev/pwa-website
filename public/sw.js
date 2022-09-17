@@ -72,10 +72,13 @@ self.addEventListener('fetch', evt => {
                 });
             }).catch(() => {
                 if (evt.request.url.indexOf('.html') > -1) {
-                    return caches.match('/pages/fallback.html');
+                    console.log("fallback page")
+                    return caches.match('/index.html');
                 }
             })
         );
+    } else {
+
     }
 
     // }

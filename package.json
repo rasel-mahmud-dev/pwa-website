@@ -4,8 +4,7 @@
     "description": "",
     "scripts": {
         "build": "node ./build.config.js",
-        "dev": "nodemon server.js",
-        "dev1": "nodemon server.js",
+        "dev": "npm-run-all -p start build:watch",
         "build:watch": "set NODE_ENV=development&&node ./build.config.js",
         "start": "nodemon server.js"
     },
@@ -23,6 +22,7 @@
         "ejs": "^3.1.8",
         "esbuild-sass-plugin": "^2.3.2",
         "express": "^4.18.1",
+        "npm-run-all": "^4.1.5",
         "preact": "^10.11.0",
         "preact-router": "^4.1.0"
     },

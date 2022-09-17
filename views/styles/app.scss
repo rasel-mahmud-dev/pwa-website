@@ -1,25 +1,7 @@
-/* views/styles/common.scss */
-.flex {
-  display: flex;
-}
-.hidden {
-  display: none;
-}
-.block {
-  display: block;
-}
-.items-center {
-  align-items: center;
-}
-.justify-between {
-  justify-content: space-between;
-}
-.relative {
-  position: relative;
-}
+@import "--media";
 
-/* views/styles/app.scss */
-:root {
+
+:root{
   --link-text: #b4b4b4;
   --heading: #efefef;
   --para: #efefef;
@@ -35,6 +17,7 @@
   --sidebar-bg-color: rgba(218, 218, 218, 0.14);
   --white: #fff;
   --link-color: #00B7FF;
+
   font-size: 16px;
   line-height: 24px;
   font-weight: 400;
@@ -44,25 +27,27 @@
   -moz-osx-font-smoothing: grayscale;
   -webkit-text-size-adjust: 100%;
 }
+
+
 body {
   margin: 0;
   padding: 0;
   font-family: Calibri, sans-serif;
   background: var(--body-bg-color);
 }
-ul,
-li {
-  margin: 0;
-  padding: 0;
-  list-style: none;
-}
+
+ul, li{margin: 0; padding: 0; list-style: none}
+
+
 .card {
   padding: 2em;
 }
+
 .read-the-docs {
   color: #888;
 }
-.header {
+
+.header{
   background: #8d8fff;
   position: fixed;
   left: 0;
@@ -70,36 +55,39 @@ li {
   width: 100%;
   z-index: 1000;
 }
-.navigation {
+
+.navigation{
   display: flex;
   align-items: center;
   justify-content: space-between;
+  .logo{
+    padding: 4px 0px;
+    position: relative;
+    z-index: 1;
+    svg{
+      width: 130px;
+    }
+  }
 }
-.navigation .logo {
-  padding: 4px 0px;
-  position: relative;
-  z-index: 1;
-}
-.navigation .logo svg {
-  width: 130px;
-}
-.container {
+
+.container{
   max-width: 1200px;
   margin: auto;
   padding: 0 10px;
 }
-.main-nav {
+
+.main-nav{
   justify-content: end;
   display: flex;
-  transition: transform 0.3s ease;
-}
-.main-nav__expand {
-  display: flex;
-  transform: translateY(0) !important;
-  opacity: 1 !important;
-}
-@media (max-width: 676px) {
-  .main-nav {
+  transition: transform .3s ease;
+  &__expand{
+    display: flex;
+    transform: translateY(0) !important;
+    opacity: 1!important;
+    //transition: transform .3s ease;
+  }
+  @include get_down(676px){
+    //display: none;
     flex-direction: column;
     position: absolute;
     top: 0;
@@ -108,27 +96,31 @@ li {
     align-items: center;
     background: #2c2c2c;
     width: 100%;
-    box-shadow: 0 4px 10px 2px rgba(124, 124, 124, 0.8);
+    box-shadow: 0 4px 10px 2px rgb(124 124 124 / 80%);
     transform: translateY(-110%);
   }
+
+  .nav-item{
+    position: relative;
+    color: var(--white);
+    text-transform: uppercase;
+    list-style: none;
+    font-weight: 500;
+    padding: 5px 15px;
+    &:hover{
+      .dropdown-nav{
+        transform: translateX(-50%) scaleY(1)
+      }
+    }
+    a{
+      color: #ffffff;
+      font-size: 14px;
+      display: inline-block;
+    }
+  }
 }
-.main-nav .nav-item {
-  position: relative;
-  color: var(--white);
-  text-transform: uppercase;
-  list-style: none;
-  font-weight: 500;
-  padding: 5px 15px;
-}
-.main-nav .nav-item:hover .dropdown-nav {
-  transform: translateX(-50%) scaleY(1);
-}
-.main-nav .nav-item a {
-  color: #ffffff;
-  font-size: 14px;
-  display: inline-block;
-}
-.dropdown-nav {
+
+.dropdown-nav{
   position: absolute;
   width: 250px;
   padding: 8px 10px;
@@ -137,47 +129,55 @@ li {
   z-index: 100;
   left: 50%;
   transform: translateX(-50%) scaleY(0);
-  box-shadow: 0px 4px 6px -2px rgba(70, 70, 70, 0.47);
+  box-shadow: 0px 4px 6px -2px rgb(70 70 70 / 47%);
   transition: all 0.2s ease;
   transform-origin: top;
+  .item{
+    a {
+      color: #282828
+    }
+  }
 }
-.dropdown-nav .item a {
-  color: #282828;
-}
-.angle-down-icon {
+
+.angle-down-icon{
   width: 10px;
   margin-left: 5px;
   fill: #ffffff;
 }
-.shown-icon-nav {
+
+
+
+
+.shown-icon-nav{
   display: block !important;
 }
-.extra-menu {
+
+.extra-menu{
   column-gap: 10px;
   display: flex;
   align-items: center;
   margin-left: 10px;
   position: relative;
   z-index: 1000;
-}
-.extra-menu .icon-item {
-  display: none;
-}
-.extra-menu .icon-item svg {
-  color: white;
-  width: 20px;
-}
-.extra-menu .menu-bars-icon {
-  display: none;
-  width: 22px;
-  fill: var(--white);
-  z-index: 102103;
-}
-@media (max-width: 676px) {
-  .extra-menu .menu-bars-icon {
-    display: flex;
+  .icon-item{
+    display: none;
+    svg{
+      color: white;
+      width: 20px;
+    }
+  }
+
+  .menu-bars-icon{
+    @include get_down(676px){
+      display: flex;
+    }
+    display: none;
+    width: 22px;
+    //position: absolute;
+    //right: 18px;
+    fill: var(--white);
+    //bottom: 191px;
+    z-index: 102103;
+    //top: 20px;
   }
 }
-
-/* views/index.css */
-/*# sourceMappingURL=main.css.map */

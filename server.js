@@ -8,11 +8,34 @@ app.set('view engine', 'ejs');
 
 app.use(express.static(path.resolve('public')));
 
-
+const categories = [
+    {name: "HOME"},
+    {name: "ES6"},
+    {
+        name: "ADVANCED",
+        subCategories: [
+            {name: "JAVASCRIPT ARRAY METHODS"},
+            {name: "JAVASCRIPT STRING METHODS"},
+            {name: "JAVASCRIPT REGEX"},
+    ]},
+    {name: "ES NEXT"},
+    {name: "JS BOM"},
+    {name: "JS DOM"},
+    {name: "WEB API"},
+    {name: "SNIPPETS"},
+    {name: "TYPESCRIPT"},
+    {name: "GOLANG"}
+]
+ //
+ // asdsad
 app.use((req, res, next) => {
     res.locals.pageCategory = null
     res.locals.categories = []
     next();
+})
+
+app.get("/api/categories", function (req, res){
+    res.send(categories)
 })
 
 
