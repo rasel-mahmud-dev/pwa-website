@@ -5,7 +5,7 @@ class Post{
 		slug: {}
 	}
 	
-	constructor(title, slug, authorId, html, summary, tags) {
+	constructor(title, slug, authorId, html, summary, tags,categories) {
 		this.title = title
 		this.slug = slug
 		this.authorId = authorId
@@ -14,6 +14,7 @@ class Post{
 		this.html =  html
 		this.summary =  summary
 		this.tags =  tags
+		this.categories = categories
 	}
 }
 

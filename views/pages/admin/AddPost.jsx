@@ -4,9 +4,10 @@ import { useState } from "preact/hooks";
 import { handleLoginAction } from "../../store/actions";
 import useStore from "../../store/useStore";
 import apis from "../../apis";
+import MultiSelect from "../../components/inputs/MultiSelect";
 
 const AddPost = () => {
-  const [app, dispatch] = useStore();
+  const [{categories}, dispatch] = useStore();
   
   const router = {}
   
@@ -16,7 +17,7 @@ const AddPost = () => {
       title: "asd",
       summary: "asd",
       markdown: "sad",
-      cover: "sad",
+	    categories: [],
       isPortfolio: false,
       tags: []
     },
@@ -28,7 +29,6 @@ const AddPost = () => {
 	
 	function handleChange(e){
 		let updatePostData = {...postData}
-		
 		if(e.target.name === "isPortfolio"){
 			updatePostData[e.target.name] = e.target.checked
 		} else if(e.target.name === "tags") {
@@ -52,8 +52,6 @@ const AddPost = () => {
 		  }
 	  }
 	
-	  console.log(isComplete)
-	
 	  if(!isComplete){
 		  setState({
 			  ...state,
@@ -69,6 +67,8 @@ const AddPost = () => {
 		  httpReqProcess: true
 	  })
 	
+	  const catNames =  postData.categories ? postData.categories.map(c=>c.name) : []
+	  
 	
 	  if(router?.query?.id){
 		  apis.patch("/api/post", { id: router?.query?.id,...postData}).then(({status, data}) => {
@@ -79,7 +79,7 @@ const AddPost = () => {
 		
 		
 	  } else {
-		  apis.post("/api/post", {...postData}).then(({status, data}) => {
+		  apis.post("/api/post", {...postData, categories: catNames }).then(({status,  data}) => {
 			  console.log(status, data)
 		  }).catch(ex => {
 			
@@ -116,19 +116,26 @@ const AddPost = () => {
                     />
 					<br/>
 					<br/>
-					
-					<label htmlFor="" className="label ">Cover photo</label>
-					<input
-                        type="text"
-                        name="cover"
-                        className="input"
-                        value={postData.cover}
-                        placeholder="Enter cover photo"
-                        onChange={handleChange}
-                    />
-					<br/>
-					<br/>
-					<div className="flex items-center gap-x-2">
+          
+          	        <label htmlFor="" className="label ">Category</label>
+	                  
+	                <MultiSelect
+		                value={postData.categories}
+		                name="categories"
+		                onChange={handleChange}
+		                options={(onClick)=> categories && categories.map(cat=>(
+			                      cat.subCategories ? (
+			                          cat.subCategories.map(sub=>(
+			                             <li onClick={()=>onClick(sub)}>{sub.name}</li>
+			                          ))
+			                      ) : (<li onClick={()=>onClick(cat)}>{cat.name}</li>)
+			                  ))}
+	                />
+	        
+                    <br/>
+                    <br/>
+	        
+                    <div className="flex items-center gap-x-2">
 						<input
                             type="checkbox"
                             name="isPortfolio"
@@ -139,6 +146,7 @@ const AddPost = () => {
                         />
 					<label htmlFor="isPortfolio" className="label ">Is Show on Portfolio </label>
 					</div>
+	    
 					<br/>
 					<br/>
 					

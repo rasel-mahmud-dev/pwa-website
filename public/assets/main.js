@@ -2454,7 +2454,8 @@ var apis_default = apis;
 // views/store/types.js
 var ACTION_TYPES = {
   FETCH_ALL_POSTS: "FETCH_ALL_POSTS",
-  SET_ADMIN: "SET_ADMIN"
+  SET_ADMIN: "SET_ADMIN",
+  SET_CATEGORIES: "SET_CATEGORIES"
 };
 var types_default = ACTION_TYPES;
 
@@ -2550,14 +2551,16 @@ function c4(l4) {
 
 // views/components/Navigation.jsx
 var Navigation = () => {
-  const [{ auth }, dispatch] = useStore_default();
+  const [{ auth, categories }, dispatch] = useStore_default();
   const [state, setState] = y2({
     isOpen: false
   });
-  const [categories, setCategories] = y2([]);
   s2(() => {
     fetch("/api/categories").then((res) => res.json()).then((result) => {
-      setCategories(result);
+      dispatch({
+        type: types_default.SET_CATEGORIES,
+        payload: result
+      });
     });
     window.addEventListener("resize", handleResize);
   }, []);
@@ -2724,7 +2727,7 @@ var Navigation = () => {
     className: "flex items-center justify-between"
   }, /* @__PURE__ */ _n.createElement("ul", {
     className: `main-nav ${state.isOpen ? "main-nav__expand" : ""}`
-  }, categories.map((item) => {
+  }, categories && categories.map((item) => {
     var _a;
     return /* @__PURE__ */ _n.createElement("li", {
       className: "nav-item relative flex items-center"
@@ -2843,10 +2846,70 @@ var Login = () => {
 };
 var Login_default = Login;
 
+// views/components/inputs/MultiSelect.jsx
+function MultiSelect({ name, value, label, placeholder, className, onChange, options, errorMessage }) {
+  const [isOpen, setOpen] = _n.useState(false);
+  function onClick(item, e3) {
+    e3 && e3.stopPropagation();
+    let updateState = [];
+    if (value && Array.isArray(value)) {
+      updateState = [...value];
+    }
+    let index = updateState.findIndex((v4) => v4.name === item.name);
+    if (index === -1) {
+      updateState.push(item);
+    } else {
+      updateState.splice(index, 1);
+    }
+    setOpen(false);
+    onChange && onChange({ target: { value: updateState, name } });
+  }
+  function deleteSelectedInput(item) {
+    let newState = value && value.filter((v4) => v4.name !== item.name);
+    onChange && onChange({ target: { value: newState, name } });
+  }
+  function handleToggleSelect(e3) {
+    setOpen(!isOpen);
+  }
+  return /* @__PURE__ */ _n.createElement("div", {
+    className: ["multi-select", className].join(" ")
+  }, /* @__PURE__ */ _n.createElement("label", {
+    htmlFor: name,
+    className: "block w-40 font-medium text-gray-200 mb-2 md:mb-0"
+  }, label), /* @__PURE__ */ _n.createElement("div", {
+    className: "w-full"
+  }, /* @__PURE__ */ _n.createElement("div", {
+    className: "flex flex-wrap gap-x-1 gap-y-1 mb-1"
+  }, value && value.map((v4, i3) => /* @__PURE__ */ _n.createElement("li", {
+    key: i3,
+    className: "select-item "
+  }, /* @__PURE__ */ _n.createElement("span", {
+    className: "mr-2 text-white"
+  }, v4.name), /* @__PURE__ */ _n.createElement("svg", {
+    onClick: () => deleteSelectedInput(v4),
+    className: "delete-svg w-2 fill-white cursor-pointer",
+    xmlns: "http://www.w3.org/2000/svg",
+    viewBox: "0 0 320 512"
+  }, /* @__PURE__ */ _n.createElement("path", {
+    d: "M207.6 256l107.72-107.72c6.23-6.23 6.23-16.34 0-22.58l-25.03-25.03c-6.23-6.23-16.34-6.23-22.58 0L160 208.4 52.28 100.68c-6.23-6.23-16.34-6.23-22.58 0L4.68 125.7c-6.23 6.23-6.23 16.34 0 22.58L112.4 256 4.68 363.72c-6.23 6.23-6.23 16.34 0 22.58l25.03 25.03c6.23 6.23 16.34 6.23 22.58 0L160 303.6l107.72 107.72c6.23 6.23 16.34 6.23 22.58 0l25.03-25.03c6.23-6.23 6.23-16.34 0-22.58L207.6 256z"
+  }))))), /* @__PURE__ */ _n.createElement("div", {
+    className: "input shrink w-full text-gray-300 relative flex items-center",
+    placeholder,
+    onClick: handleToggleSelect
+  }, placeholder, isOpen && /* @__PURE__ */ _n.createElement("ul", {
+    className: "absolute top-12 left-0 bg-neutral w-full p-4 shadow-11xl"
+  }, options(onClick))), /* @__PURE__ */ _n.createElement("div", {
+    className: "mt-1"
+  }, errorMessage && /* @__PURE__ */ _n.createElement("span", {
+    className: "rounded-md text-error"
+  }, errorMessage))));
+}
+var MultiSelect_default = MultiSelect;
+
 // views/pages/admin/AddPost.jsx
 var AddPost = () => {
   var _a;
-  const [app, dispatch] = useStore_default();
+  const [{ categories }, dispatch] = useStore_default();
   const router = {};
   const [state, setState] = y2({
     postData: {
@@ -2854,7 +2917,7 @@ var AddPost = () => {
       title: "asd",
       summary: "asd",
       markdown: "sad",
-      cover: "sad",
+      categories: [],
       isPortfolio: false,
       tags: []
     },
@@ -2886,7 +2949,6 @@ var AddPost = () => {
         }
       }
     }
-    console.log(isComplete);
     if (!isComplete) {
       setState({
         ...state,
@@ -2899,13 +2961,14 @@ var AddPost = () => {
       errorMessage: "",
       httpReqProcess: true
     });
+    const catNames = postData.categories ? postData.categories.map((c5) => c5.name) : [];
     if ((_a2 = router == null ? void 0 : router.query) == null ? void 0 : _a2.id) {
       apis_default.patch("/api/post", { id: (_b = router == null ? void 0 : router.query) == null ? void 0 : _b.id, ...postData }).then(({ status, data }) => {
         console.log(status, data);
       }).catch((ex) => {
       });
     } else {
-      apis_default.post("/api/post", { ...postData }).then(({ status, data }) => {
+      apis_default.post("/api/post", { ...postData, categories: catNames }).then(({ status, data }) => {
         console.log(status, data);
       }).catch((ex) => {
       });
@@ -2940,13 +3003,15 @@ var AddPost = () => {
   }), /* @__PURE__ */ _n.createElement("br", null), /* @__PURE__ */ _n.createElement("br", null), /* @__PURE__ */ _n.createElement("label", {
     htmlFor: "",
     className: "label "
-  }, "Cover photo"), /* @__PURE__ */ _n.createElement("input", {
-    type: "text",
-    name: "cover",
-    className: "input",
-    value: postData.cover,
-    placeholder: "Enter cover photo",
-    onChange: handleChange
+  }, "Category"), /* @__PURE__ */ _n.createElement(MultiSelect_default, {
+    value: postData.categories,
+    name: "categories",
+    onChange: handleChange,
+    options: (onClick) => categories && categories.map((cat) => cat.subCategories ? cat.subCategories.map((sub) => /* @__PURE__ */ _n.createElement("li", {
+      onClick: () => onClick(sub)
+    }, sub.name)) : /* @__PURE__ */ _n.createElement("li", {
+      onClick: () => onClick(cat)
+    }, cat.name))
   }), /* @__PURE__ */ _n.createElement("br", null), /* @__PURE__ */ _n.createElement("br", null), /* @__PURE__ */ _n.createElement("div", {
     className: "flex items-center gap-x-2"
   }, /* @__PURE__ */ _n.createElement("input", {
@@ -3004,6 +3069,7 @@ var initialState = {
   portfolioCachePosts: null,
   isShowBackdrop: false,
   post: null,
+  categories: null,
   posts: null,
   postDetails: null,
   auth: null,
@@ -3012,6 +3078,11 @@ var initialState = {
 };
 function reducer(state, action) {
   switch (action.type) {
+    case types_default.SET_CATEGORIES:
+      return {
+        ...state,
+        categories: action.payload
+      };
     case types_default.FETCH_ALL_POSTS:
       return {
         ...state,

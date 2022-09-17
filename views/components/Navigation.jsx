@@ -2,21 +2,25 @@ import React, {useEffect} from 'preact/compat';
 import {Link} from "preact-router/match";
 import {useState} from "preact/hooks";
 import useStore from "../store/useStore";
+import ACTION_TYPES from "../store/types";
 
 
 const Navigation = () => {
   
-  const [{auth}, dispatch]  = useStore();
+  const [{auth, categories}, dispatch]  = useStore();
   
 
   const [state, setState] = useState({
     isOpen: false
   })
-	const [categories, setCategories] = useState([])
-
-	useEffect(() => {
+  
+  
+  useEffect(() => {
 		fetch("/api/categories").then(res => res.json()).then(result => {
-			setCategories(result)
+          dispatch({
+            type: ACTION_TYPES.SET_CATEGORIES,
+            payload: result
+          })
 		})
 
       window.addEventListener("resize", handleResize)
@@ -219,7 +223,7 @@ const Navigation = () => {
 
           <div className="flex items-center justify-between">
             <ul className={`main-nav ${state.isOpen ? "main-nav__expand": ""}`}>
-              {categories.map((item) => (
+              {categories && categories.map((item) => (
                   <li className="nav-item relative flex items-center">
                   <Link href="/">{item.name}</Link>
                    <svg

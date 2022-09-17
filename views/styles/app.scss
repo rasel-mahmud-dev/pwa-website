@@ -231,3 +231,21 @@ ul, li{margin: 0; padding: 0; list-style: none}
   width: 150px;
   padding: 10px !important;
 }
+
+.multi-select{
+  width: 100%;
+  .delete-svg{
+    width: 10px;
+    fill: red;
+    margin-left: 4px;
+  }
+  .select-item{
+    background: rgba(23, 187, 106, 0.58);
+    display: flex;
+    align-items: center;
+    margin-right: 5px;
+    padding: 2px 4px;
+    border-radius: 4px;
+  }
+
+}

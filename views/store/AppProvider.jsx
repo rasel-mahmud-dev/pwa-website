@@ -13,6 +13,7 @@ const initialState = {
 	portfolioCachePosts: null,
 	isShowBackdrop: false,
 	post: null,
+	categories: null,
 	posts: null,
 	postDetails: null,
 	auth: null,
@@ -27,11 +28,11 @@ function reducer(state, action) {
 	switch (action.type) {
 		
 		
-		// case ACTION_TYPES.FETCH_PROJECTS:
-		// 	return {
-		// 		...state,
-		// 		projects: action.payload
-		// 	}
+		case ACTION_TYPES.SET_CATEGORIES:
+			return {
+				...state,
+				categories: action.payload
+			}
 		
 		case ACTION_TYPES.FETCH_ALL_POSTS:
 			return {

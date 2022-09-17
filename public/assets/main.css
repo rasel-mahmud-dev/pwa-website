@@ -237,6 +237,22 @@ li {
   width: 150px;
   padding: 10px !important;
 }
+.multi-select {
+  width: 100%;
+}
+.multi-select .delete-svg {
+  width: 10px;
+  fill: red;
+  margin-left: 4px;
+}
+.multi-select .select-item {
+  background: rgba(23, 187, 106, 0.58);
+  display: flex;
+  align-items: center;
+  margin-right: 5px;
+  padding: 2px 4px;
+  border-radius: 4px;
+}
 
 /* views/pages/auth/styles.scss */
 .login-form {

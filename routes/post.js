@@ -10,7 +10,7 @@ const router = require("express").Router();
 
 router.post("/post", async function (req, res){
 	
-	const { slug, title, summary, isPortfolio, markdown, cover, tags= [] } = req.body
+	const { slug, title, categories, summary, isPortfolio, markdown, cover, tags= [] } = req.body
 	
 	try {
 		
@@ -28,7 +28,8 @@ router.post("/post", async function (req, res){
 				ObjectId(admin.id),
 				markdown,
 				summary,
-				tags
+				tags,
+				categories
 			)
 			let doc = await database.collection("posts").insertOne(post)
 			if(doc.insertedId){
