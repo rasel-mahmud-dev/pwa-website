@@ -1,56 +1,28 @@
 const express = require("express");
 const path = require("path");
 
+require("dotenv").config("../.env")
+
 const app = express();
 
-// view engine setup
-app.set('views', path.resolve('views'));
-app.set('view engine', 'ejs');
 
-app.use(express.static(path.resolve('public')));
+app.use(require("./middleware"))
 
-const categories = [
-	{name: "HOME"},
-	{name: "HTML"},
-	{
-		name: "JS ADVANCED",
-		subCategories: [
-			{name: "JAVASCRIPT ARRAY METHODS"},
-			{name: "JAVASCRIPT STRING METHODS"},
-			{name: "JAVASCRIPT REGEX"},
-		]},
-	{name: "CSS"},
-	{name: "JAVASCRIPT CORE"},
-	{name: "JS BOM"},
-	{name: "JS DOM"},
-	{name: "WEB API"},
-	{name: "SNIPPETS"},
-	{name: "GOLANG"}
-]
+app.use(require("./routes"));
 
 
-app.use((req, res, next) => {
-	res.locals.pageCategory = null
-	res.locals.categories = []
-	next();
+app.use((_req, _res, next) => {
+	const error  = new Error("Resource not fount")
+	error.status = 404;
+	next(error)
 })
 
-app.get("/health", function (_req, res){
-	res.status(200).json({message: "Success"})
-})
-
-
-app.get("/api/categories", function (req, res){
-	res.send(categories)
-})
-
-app.post("/api/login", function (req, res){
-	res.send(categories)
-})
-
-
-app.get("*", (req, res) => {
-	res.sendFile(path.resolve("public/index.html"))
+app.use((error, _req, res, _next) => {
+	if(error.status){
+		return res.status(error.status).json({message: error.message})
+	}
+	
+	res.status(500).json({message: "Something were wrong"})
 })
 
 
