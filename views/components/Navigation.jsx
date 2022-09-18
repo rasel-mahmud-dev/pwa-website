@@ -7,7 +7,7 @@ import ACTION_TYPES from "../store/types";
 
 const Navigation = () => {
   
-  const [{auth, categories}, dispatch]  = useStore();
+  const [{auth, isDark, categories}, dispatch]  = useStore();
   
 
   const [state, setState] = useState({
@@ -42,8 +42,27 @@ const Navigation = () => {
       isOpen: !state.isOpen
     })
   }
+  
+  function toggleTheme(){
+    
+    localStorage.setItem("theme", !isDark)
+  
+    if(isDark) {
+      window.document.documentElement.classList.add("light")
+      window.document.documentElement.classList.remove("dark")
+    } else {
+      window.document.documentElement.classList.add("dark")
+      window.document.documentElement.classList.remove("light")
+    }
+    
+    dispatch({
+      type: ACTION_TYPES.TOGGLE_THEME,
+      payload: !isDark
+    })
+  }
+  
 
-	return (
+  return (
     <div>
       <div className="header">
       <div className="container">
@@ -225,7 +244,7 @@ const Navigation = () => {
             <ul className={`main-nav ${state.isOpen ? "main-nav__expand": ""}`}>
               {categories && categories.map((item) => (
                   <li className="nav-item relative flex items-center">
-                  <Link href="/">{item.name}</Link>
+                  <Link href={`/${item.name}`}>{item.name}</Link>
                    <svg
                        className={`angle-down-icon ${!item.subCategories ? "hidden": "block"}`}
                        xmlns="http://www.w3.org/2000/svg"
@@ -238,17 +257,17 @@ const Navigation = () => {
                         <div className="dropdown-nav">
                     {item.subCategories?.map((sub) => (
                         <li className="item">
-                          <a href="/">{sub.name}</a>
+                          <Link href={`/${sub.name}`}>{sub.name}</Link>
                         </li>
                     ))}
                   </div>}
-
                 </li>
               ))}
             </ul>
 
             <div className="extra-menu">
-              <li className="icon-item shown-icon-nav">
+              
+              <li className={`icon-item  ${isDark ? "shown-icon-nav": ""}`} onClick={toggleTheme}>
                 <svg
                     className="dark-mode-icon"
                     role="img"
@@ -263,7 +282,7 @@ const Navigation = () => {
                 </svg>
               </li>
 
-              <li className="icon-item ">
+              <li className={`icon-item  ${!isDark ? "shown-icon-nav": ""}`} onClick={toggleTheme}>
                 <svg
                     className="light-mode-icon "
                     role="img"

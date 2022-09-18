@@ -5,7 +5,15 @@
     "dist/public/**",
     "src/public/**",
     "functions/**",
-    "server.js"
+    "server.js",
+    "controllers",
+    "routes",
+    "app",
+    "services",
+    "models",
+    "middlewares",
+    "error",
+    "jwt"
   ],
   "ext": "ejs, js, ts, scss",
   "ignore": [

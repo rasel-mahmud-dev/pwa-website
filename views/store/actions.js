@@ -3,9 +3,32 @@ import apis from "../apis";
 
 
 
-export const fetchAllPosts = (dispatch) => {
-	apis.get("/api/posts").then(res => {
+export const fetchAllPosts = (dispatch, payload) => {
+	
+	const { categoryName } = payload;
+	
+	// use cache data
+	let posts = localStorage.getItem(categoryName);
+	if(posts){
+		try {
+			posts = JSON.parse(posts)
+			
+			// dispatch({
+			// 	type: ACTION_TYPES.FETCH_ALL_POSTS,
+			// 	payload: posts
+			// })
+			//
+			// return;
+		} catch (ex){
+		
+		}
+	}
+	
+	apis.post("/api/posts", {categoryName}).then(res => {
 		if (res.status === 200) {
+			
+			localStorage.setItem(categoryName, JSON.stringify(res.data.posts))
+			
 			dispatch({
 				type: ACTION_TYPES.FETCH_ALL_POSTS,
 				payload: res.data.posts

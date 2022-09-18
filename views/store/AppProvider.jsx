@@ -4,7 +4,7 @@ import ACTION_TYPES from "./types";
 
 import AppContext from "./AppContext"
 
-{/*@ts-ignore*/}
+
 const initialState = {
 	filteredPosts: [],
 	searchText: "",
@@ -15,6 +15,7 @@ const initialState = {
 	post: null,
 	categories: null,
 	posts: null,
+	isDark: false,
 	postDetails: null,
 	auth: null,
 	allPosts: [],
@@ -26,7 +27,6 @@ const initialState = {
 function reducer(state, action) {
 
 	switch (action.type) {
-		
 		
 		case ACTION_TYPES.SET_CATEGORIES:
 			return {
@@ -40,7 +40,12 @@ function reducer(state, action) {
 				posts: action.payload
 			}
 		
-		//
+		case ACTION_TYPES.TOGGLE_THEME:
+			return {
+				...state,
+				isDark: action.payload
+			}
+			
 		// case ACTION_TYPES.FETCH_PORTFOLIO_CACHE_POSTS:
 		// 	return {
 		// 		...state,
@@ -102,7 +107,6 @@ const AppProvider = (props) => {
 	const [contextState, contextDispatch] = useReducer(reducer, initialState);
 	
 	return (
-		//@ts-ignore
 		<AppContext.Provider value={{state: contextState, dispatch: contextDispatch}}>
 			{props.children}
 		</AppContext.Provider>

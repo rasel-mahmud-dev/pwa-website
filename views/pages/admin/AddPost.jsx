@@ -1,15 +1,53 @@
-import React from "preact/compat";
+import React, {useEffect} from "preact/compat";
 import { useState } from "preact/hooks";
 
-import { handleLoginAction } from "../../store/actions";
+
 import useStore from "../../store/useStore";
 import apis from "../../apis";
 import MultiSelect from "../../components/inputs/MultiSelect";
+
+
+import hljs from 'highlight.js';
+
+import "highlight.js/styles/monokai.css"
+
+import Quill from "quill"
+import 'quill/dist/quill.snow.css';
 
 const AddPost = () => {
   const [{categories}, dispatch] = useStore();
   
   const router = {}
+	
+	useEffect(()=>{
+		
+		setTimeout(()=>{
+			
+			hljs.configure({ // optionally configure hljs
+				languages: ['javascript', 'ruby', 'python']
+			});
+			
+			var quill = new Quill('#editor', {
+				// debug: 'info',
+				modules: {
+					syntax: true,
+					toolbar: [
+						[{
+							header: [1, 2, false]
+						}],
+						['bold', 'italic', 'underline', 'color'],
+						['image', 'code-block', 'code']
+					]
+				},
+				
+				theme: 'snow' // or 'bubble'
+			});
+			
+			
+		}, 2000)
+		
+		
+	}, [])
   
   const [state, setState] = useState({
     postData: {
@@ -76,11 +114,17 @@ const AddPost = () => {
 		  }).catch(ex => {
 			
 		  })
-		
+			
 		
 	  } else {
 		  apis.post("/api/post", {...postData, categories: catNames }).then(({status,  data}) => {
-			  console.log(status, data)
+			  if(status === 201) {
+				  setState({
+					  ...state,
+					  errorMessage: "",
+					  httpReqProcess: false
+				  })
+			  }
 		  }).catch(ex => {
 			
 		  })
@@ -92,7 +136,9 @@ const AddPost = () => {
     <div className="container">
       <div className="card">
         <form onSubmit={handleSubmit}>
-					
+			
+	            <div id="editor"></div>
+	        
 					<label htmlFor="" className="label" >Post Slug</label>
 					<input
                         type="text"

@@ -158,8 +158,6 @@ ul, li{margin: 0; padding: 0; list-style: none}
 }
 
 
-
-
 .shown-icon-nav{
   display: block !important;
 }
@@ -173,6 +171,7 @@ ul, li{margin: 0; padding: 0; list-style: none}
   z-index: 1000;
   .icon-item{
     display: none;
+    cursor: pointer;
     svg{
       color: white;
       width: 20px;
@@ -199,6 +198,7 @@ ul, li{margin: 0; padding: 0; list-style: none}
     //top: 20px;
   }
 }
+
 .spacer{
   height: 60px;
 }
@@ -248,4 +248,15 @@ ul, li{margin: 0; padding: 0; list-style: none}
     border-radius: 4px;
   }
 
+}
+
+.each-post{
+  margin: 10px;
+  padding: 5px;
+  .title{
+    background: #d3dcff33;
+  }
+  .para{
+    white-space: pre-line ;
+  }
 }
