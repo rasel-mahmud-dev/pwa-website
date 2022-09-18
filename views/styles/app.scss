@@ -251,12 +251,21 @@ ul, li{margin: 0; padding: 0; list-style: none}
 }
 
 .each-post{
-  margin: 10px;
+  margin: 5px10px;
   padding: 5px;
   .title{
     background: #d3dcff33;
+    display: flex;
+    align-items: center;
+    padding: 2px 5px;
   }
   .para{
+    padding: 0 5px;
     white-space: pre-line ;
+  }
+  svg{
+    margin-right: 4px;
+    width: 7px;
+    fill: #595959;
   }
 }

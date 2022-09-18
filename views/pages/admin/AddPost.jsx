@@ -20,32 +20,25 @@ const AddPost = () => {
   const router = {}
 	
 	useEffect(()=>{
+		hljs.configure({ // optionally configure hljs
+			languages: ['javascript', 'ruby', 'python']
+		});
 		
-		setTimeout(()=>{
+		var quill = new Quill('#editor', {
+			// debug: 'info',
+			modules: {
+				syntax: true,
+				toolbar: [
+					[{
+						header: [1, 2, false]
+					}],
+					['bold', 'italic', 'underline', 'color'],
+					['image', 'code-block', 'code']
+				]
+			},
 			
-			hljs.configure({ // optionally configure hljs
-				languages: ['javascript', 'ruby', 'python']
-			});
-			
-			var quill = new Quill('#editor', {
-				// debug: 'info',
-				modules: {
-					syntax: true,
-					toolbar: [
-						[{
-							header: [1, 2, false]
-						}],
-						['bold', 'italic', 'underline', 'color'],
-						['image', 'code-block', 'code']
-					]
-				},
-				
-				theme: 'snow' // or 'bubble'
-			});
-			
-			
-		}, 2000)
-		
+			theme: 'snow' // or 'bubble'
+		});
 		
 	}, [])
   

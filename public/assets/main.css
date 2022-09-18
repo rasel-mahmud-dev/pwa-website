@@ -256,14 +256,23 @@ li {
   border-radius: 4px;
 }
 .each-post {
-  margin: 10px;
+  margin: 5px10px;
   padding: 5px;
 }
 .each-post .title {
   background: rgba(211, 220, 255, 0.2);
+  display: flex;
+  align-items: center;
+  padding: 2px 5px;
 }
 .each-post .para {
+  padding: 0 5px;
   white-space: pre-line;
+}
+.each-post svg {
+  margin-right: 4px;
+  width: 7px;
+  fill: #595959;
 }
 
 /* views/pages/auth/styles.scss */
